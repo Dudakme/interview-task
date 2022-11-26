@@ -4,7 +4,7 @@ interface response {
     likability: number
 }
 
-const responses: response[] = [
+let responses: response[] = [
     {
         message: '안녕',
         reply: '안녕하세요!',
@@ -28,19 +28,16 @@ const responses: response[] = [
 ]
 
 
-class CommunicationRepo {
-    constructor() {
-
-    }
-    
+class ReactionRepo {
+     
     private async findResponse(message: string): Promise<response | undefined> {
-
         // db 일 경우 대비해 await 작성
-        return await responses.find(e => e.message === message)
+        return responses.find(e => e.message === message)
     }
 
-    private async deleteResponse(message: string) {
-
+    private async deleteResponse(value: response): Promise<response[] | undefined> {
+        responses = responses.filter(e => e == value)
+        return responses
     }
 
     private async updateResponse(message: string) {

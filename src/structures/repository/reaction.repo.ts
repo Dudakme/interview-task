@@ -29,23 +29,28 @@ let responses: response[] = [
 
 
 class ReactionRepo {
-     
+
+
+    constructor(private responses: response[]) {
+
+    }
+
     private async findResponse(message: string): Promise<response | undefined> {
         // db 일 경우 대비해 await 작성
-        return responses.find(e => e.message === message)
+        return this.responses.find(e => e.message === message)
     }
 
     private async deleteResponse(value: response): Promise<response[] | undefined> {
-        responses = responses.filter(e => e == value)
+        responses = this.responses.filter(e => e == value)
         return responses
     }
 
-    private async updateResponse(message: string) {
-
+    private async updateResponse(at: response, to: response) {
+        /* TO DO 임시적으론 무필요 */
     }
 
     private async createResponse(input: response) {
-
+        /* TO DO 임시적으론 무필요 */
     }
 
 }

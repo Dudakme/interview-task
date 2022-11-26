@@ -14,7 +14,6 @@ export interface Badge {
   owner: mongoose.Types.ObjectId | User
 }
 
-
 const userSchema: Schema = new Schema<User>(
   {
     id: String,
@@ -30,18 +29,23 @@ const userSchema: Schema = new Schema<User>(
         },
       },
     ],
-    verifiedAt: Date
+    verifiedAt: Date,
   },
   {
     statics: {
       getLikeLevel(id: string) {
         return new Promise((resolve, reject) => {
-          if (this == undefined) return
-          this?.find({ id: id }, (err, res) => {
+          this.find({ id: id }, (err, res) => {
             if (err) {
-              return reject(err)
+              return reject(err);
             }
-            resolve(res)
+            let level = 0
+            for (let reach = 30, i = 1; reach + 2; i++) {
+              if (res - reach > 0) {
+                level = i
+              } else break;
+            }
+            resolve(level)
           })
         })
       },
@@ -49,4 +53,4 @@ const userSchema: Schema = new Schema<User>(
   }
 )
 
-export const User = mongoose.model('User', userSchema);
+export const User = mongoose.model("User", userSchema);

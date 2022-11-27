@@ -1,25 +1,20 @@
 import mongoose, { model, Schema } from "mongoose"
+import { IUser, IBadge } from "../models"
 
-export interface User {
-  id: string
-  username: string
-  likability: number // 기본값은 0
-  battery: number // 기본값은 100
-  badges: mongoose.Types.ObjectId[] | Badge[]
-  verifiedAt: Date
-}
-
-export interface Badge {
-  badgeId: number // 배지의 종류
-  owner: mongoose.Types.ObjectId | User
-}
-
-const userSchema: Schema = new Schema<User>(
+const userSchema: Schema = new Schema<IUser>(
   {
     id: String,
     username: String,
-    likability: Number,
-    battery: Number,
+    likability: {
+      default: 0,
+      type: Number
+    },
+    battery: {
+      default: 100,
+      type: Number,
+      max: 100,
+      min: 0,
+    },
     badges: [
       {
         badgeId: Number,
@@ -53,4 +48,4 @@ const userSchema: Schema = new Schema<User>(
   }
 )
 
-export const User = mongoose.model("User", userSchema);
+export const UserModel = mongoose.model("User", userSchema);

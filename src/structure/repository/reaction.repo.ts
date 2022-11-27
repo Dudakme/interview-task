@@ -1,22 +1,23 @@
-import { Reaction } from "../models"
+import { IReaction } from "../models"
 
+// map 사용 고려 했으나 미래에 DB 사용을 대비해 배열로 유지
 export default class ReactionRepo {
-  constructor(private responses: Reaction[]) {}
+  constructor(private responses: IReaction[]) {}
 
-  public async findResponse(message: string): Promise<Reaction | undefined> {
+  public async findResponseByMessage(message: string): Promise<IReaction | undefined> {
     return this.responses.find((e) => e.message === message)
   }
 
-  public async deleteResponse(value: Reaction): Promise<Reaction[] | undefined> {
-    this.responses = this.responses.filter((e) => e == value)
+  public async deleteResponseByReaction(value: IReaction): Promise<IReaction[] | undefined> {
+    this.responses = this.responses.filter((e) => e !== value)
     return this.responses
   }
 
-  private async updateResponse(at: Reaction, to: Reaction) {
+  private async updateResponse(at: IReaction, to: IReaction) {
     /* TO DO 임시적으론 무필요 */
   }
 
-  private async createResponse(input: Reaction) {
+  private async createResponse(input: IReaction) {
     /* TO DO 임시적으론 무필요 */
   }
 }

@@ -1,8 +1,8 @@
 import ReactionService from "./structure/service/reaction.service"
 import ReactionRepo from "./structure/repository/reaction.repo"
-import { Reaction } from "./structure/models"
+import { IReaction } from "./structure/models"
 
-let responses: Reaction[] = [
+let responses: IReaction[] = [
     {
         message: '안녕',
         reply: '안녕하세요!',

@@ -1,11 +1,15 @@
-interface BotConfig {
-  token: string
-  guilds: string[]
+interface Config {
+  token: string,
+  guilds: string[],
+  db_URL: string
 }
 
-interface DBConfig {
-    url: string
-}
+const config: Config = require("../Config.json")
 
-export const botConfig: BotConfig = require("../botConfig.json")
-export const dbConfig: DBConfig = require("../dbConfig.json")
+export const configService = (): { token: string, guilds: string[], db_URL: string} => {
+  return {
+    token: config.token,
+    guilds: config.guilds,
+    db_URL: config.db_URL
+  }
+} 

@@ -4,7 +4,7 @@ interface Config {
   db_URL: string
 }
 
-const config: Config = require("../Config.json")
+const config: Config = require("../config.json")
 
 export const configService = (): { token: string, guilds: string[], db_URL: string} => {
   return {

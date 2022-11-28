@@ -1,6 +1,6 @@
-import ReactionService from "./structure/service/reaction.service"
-import ReactionRepo from "./structure/repository/reaction.repo"
-import { IReaction } from "./structure/models"
+import ReactionService from "./structures/service/reaction.service"
+import ReactionRepo from "./structures/repository/reaction.repo"
+import { IReaction } from "./structures/models"
 
 let responses: IReaction[] = [
     {

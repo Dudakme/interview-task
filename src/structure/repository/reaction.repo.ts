@@ -5,7 +5,8 @@ export default class ReactionRepo {
   constructor(private responses: IReaction[]) {}
 
   public async findResponseByMessage(message: string): Promise<IReaction | undefined> {
-    return this.responses.find((e) => e.message === message)
+    const res = this.responses.filter((e) => e.message === message)
+    return res[Math.floor(Math.random()*res.length)]
   }
 
   public async deleteResponseByReaction(value: IReaction): Promise<IReaction[] | undefined> {

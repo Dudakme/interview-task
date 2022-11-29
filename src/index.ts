@@ -7,7 +7,6 @@ import { IReaction } from "./structure/models"
 
 import { configService } from "./config"
 
-
 /*
 아니 왜 맵을 안 써?
 미래에 반응을 데이터베이스 몽고디비에서 관리 할시, 데이터는 배열로 주어진다. 
@@ -23,12 +22,12 @@ let responses: IReaction[] = [
     },
     {
         message: '안녕',
-        reply: '안녕하세요 !author님!',
+        reply: '안녕하세요 {username\}님!',
         likability: 1
     },
     {
         message: '좋아해',
-        reply: '저도 저도 !author님이 좋아요!',
+        reply: '저도 저도 {username\}님이 좋아요!',
         likability: 3
     },
     {
@@ -38,12 +37,13 @@ let responses: IReaction[] = [
     }
 ]
 
-// 어디서 클래스를 인스턴스(서비스) 하는게 맞는 방법일까? 찾아 볼 필요가 있다.
-const test = new ReactionService(new ReactionRepo(responses))
+// 어디서 클래스를 인스턴스(서비스, 리포) 하는게 맞는 방법일까? 찾아 볼 필요가 있다.
+const Reactions = new ReactionService(new ReactionRepo(responses))
 const DB = new DatabaseService(configService)
 
 const thise = async () => {
     await DB.connect()
+    console.log(await Reactions.getReaction('안녕', { username: '유저'}))
 }
 
 thise()

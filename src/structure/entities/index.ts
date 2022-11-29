@@ -28,9 +28,11 @@ const userSchema: Schema = new Schema<IUser>(
   },
   {
     statics: {
+
+      // 수정해여함
       getLikeLevel(id: string) {
         return new Promise((resolve, reject) => {
-          this.find({ id: id }, (err, res) => {
+          this.findOne({ id: id }, (err, res) => {
             if (err) {
               return reject(err);
             }

@@ -1,5 +1,16 @@
-import { applicationCommand, Extension, listener } from "@pikokr/command.ts"
-import { ApplicationCommandType, ChatInputCommandInteraction } from "discord.js"
+import {
+  applicationCommand,
+  Extension,
+  listener,
+  command,
+  option,
+} from "@pikokr/command.ts"
+import {
+  ApplicationCommandType,
+  ChatInputCommandInteraction,
+  Message,
+  ApplicationCommandOptionType,
+} from "discord.js"
 
 class HelloExtension extends Extension {
   @listener({ event: "ready" })
@@ -16,6 +27,16 @@ class HelloExtension extends Extension {
   async ping(i: ChatInputCommandInteraction) {
     await i.reply(`current ping: ${i.client.ws.ping}ms`)
   }
+
+  @command({
+    name: "ping",
+  })
+  async reactionHandler(msg: Message) {
+    this.logger.info("작동함")
+    await msg.reply("작동하는건가?")
+  }
+
+
 }
 
 export const setup = async () => {

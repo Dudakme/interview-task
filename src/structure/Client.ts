@@ -6,7 +6,7 @@ import {
 } from "@pikokr/command.ts"
 import { ApplicationCommandType, ChatInputCommandInteraction } from "discord.js"
 import path from "path"
-import { config } from "../config"
+import { configService } from "../config"
 
 class DevModule extends Extension {
   @ownerOnly
@@ -28,7 +28,7 @@ class DevModule extends Extension {
 
 export class CustomizedCommandClient extends CommandClient {
   async setup() {
-    await this.enableApplicationCommandsExtension({ guilds: config.guilds })
+    await this.enableApplicationCommandsExtension({ guilds: configService().guilds })
     await this.registry.registerModule(new DevModule())
 
     await this.registry.loadAllModulesInDirectory(

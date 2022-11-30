@@ -1,11 +1,13 @@
 import UserService from "./structure/service/user.service"
 import ReactionService from "./structure/service/reaction.service"
 import DatabaseService from "./structure/service/database.service"
+import { BadgeModel, UserModel } from "./structure/entities"
 
 import ReactionRepo from "./structure/repository/reaction.repo"
 import { IReaction } from "./structure/models"
 
 import { configService } from "./config"
+import UserRepo from "./structure/repository/user.repo"
 
 /*
 아니 왜 맵을 안 써?
@@ -39,11 +41,13 @@ let responses: IReaction[] = [
 
 // 어디서 클래스를 인스턴스(서비스, 리포) 하는게 맞는 방법일까? 찾아 볼 필요가 있다.
 const Reactions = new ReactionService(new ReactionRepo(responses))
+const Users = new UserRepo(UserModel, BadgeModel)
 const DB = new DatabaseService(configService)
 
 const thise = async () => {
     await DB.connect()
     console.log(await Reactions.getReaction('안녕', { username: '유저'}))
+    await Users.createUser({ id: "12345", username: "test", badges: [], verifiedAt: new Date(), likability: 0, battery: 0})
 }
 
 thise()

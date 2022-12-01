@@ -5,13 +5,13 @@ export default class ReactionRepo {
   constructor(private responses: IReaction[]) {}
 
   public async findResponseByMessage(message: string): Promise<IReaction | undefined> {
-    const results = this.responses.filter((e) => e.message === message)
-    const randIdx = Math.floor(Math.random() * results.length)
-    return results[randIdx]
+    const results = this.responses.filter((e) => e.message === message);
+    const randIdx = Math.floor(Math.random() * results.length);
+    return results[randIdx];
   }
 
   public async deleteResponseByReaction(value: IReaction): Promise<IReaction[] | undefined> {
-    this.responses = this.responses.filter((e) => e !== value)
+    this.responses = this.responses.filter((e) => e !== value);
     return this.responses
   }
 

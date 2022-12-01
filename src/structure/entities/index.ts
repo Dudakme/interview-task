@@ -1,7 +1,11 @@
-import mongoose, { model, Schema } from "mongoose"
+import mongoose, { Model, Schema } from "mongoose"
 import { IUser, IBadge } from "../models"
 
 // 배지도 엔티티로
+
+interface IUserMethod {
+  getLikeLevel(): number
+}
 
 const badgeSchema = new Schema<IBadge>({
   badgeId: Number,
@@ -37,7 +41,7 @@ const userSchema: Schema = new Schema<IUser>(
     verifiedAt: Date,
   },
   {
-    statics: {
+    methods: {
       // 수정해여함
       getLikeLevel(id: string) {
         return new Promise(async (resolve, reject) => {
@@ -59,5 +63,6 @@ const userSchema: Schema = new Schema<IUser>(
   }
 )
 
-export const UserModel = mongoose.model("User", userSchema)
+type IUserModel = Model<IUser, {}, IUserMethod>
+export const UserModel = mongoose.model<IUser, IUserModel, IUserMethod>("User", userSchema)
 export const BadgeModel = mongoose.model("Badges", badgeSchema)

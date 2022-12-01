@@ -5,8 +5,10 @@ export default class LikabilityRepo {
 
     // 임시적으로 any 사용. 테스트 용 또 고쳐야함
     public async getLikabilitybyId(id: string): Promise<any> {
-        return await this.Model.findOne({ id: id});
+        const result = await this.Model.findOne({ id: id });
+        if (!result) return 0
 
+        return result.likability;
     }
 
     // 임시적으로 any 사용. 테스트 용

@@ -12,7 +12,7 @@ import {
   ApplicationCommandOptionType,
 } from "discord.js"
 
-class HelloExtension extends Extension {
+class PingPongExtension extends Extension {
   @listener({ event: "ready" })
   async ready() {
     this.logger.info(`Logged in as ${this.client.user!.tag}`)
@@ -22,23 +22,15 @@ class HelloExtension extends Extension {
   @applicationCommand({
     name: "ping",
     type: ApplicationCommandType.ChatInput,
-    description: "wow this is ping",
+    description: "현재 크시의 상태를 알수 있어요!",
   })
   async ping(i: ChatInputCommandInteraction) {
-    await i.reply(`current ping: ${i.client.ws.ping}ms`)
-  }
-
-  @command({
-    name: "ping",
-  })
-  async reactionHandler(msg: Message) {
-    this.logger.info("작동함")
-    await msg.reply("작동하는건가?")
+    await i.reply(`:ping_pong: 퐁이에요! (핑 ${i.client.ws.ping}ms)`)
   }
 
 
 }
 
 export const setup = async () => {
-  return new HelloExtension()
+  return new PingPongExtension()
 }

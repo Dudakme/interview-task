@@ -1,11 +1,13 @@
 import UserRepo from "../repository/user.repository";
 import LikabilityRepo from "../repository/likability.repository";
+import { IUser } from "../models";
 
-export default class userService {
+export class userServiceModule {
     constructor(private userRepo: UserRepo, private likeRepo: LikabilityRepo) {}
 
-    public async findUser(id: string) {
-        return await this.userRepo.getUserbyId(id);
+    public findUser(id: string) {
+        const result = this.userRepo.getUserbyId(id);
+        return result
     }
 
     public async getBadges(id: string) {
@@ -16,5 +18,13 @@ export default class userService {
         
     }
 
+    public async createUser(options: IUser) {
+        const result = await this.userRepo.createUser(options)
+        return result
+    }
     
 }
+
+export default (users: UserRepo, likabilities: LikabilityRepo) => {
+    return new userServiceModule(users, likabilities)
+  }

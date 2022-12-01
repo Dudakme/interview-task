@@ -2,10 +2,10 @@ import mongoose from "mongoose"
 import { configService } from "../../config"
 import { Logger } from 'tslog';
 
-export default class DatabaseService {
+class DatabaseServiceModule {
     constructor(private config: typeof configService) {}
 
-    public async connect(logger: Logger) {
+    public async init(logger: Logger) {
         mongoose.connect(this.config().db_URL).then(() => {
             logger.info('MongoDB connected')
         }).catch((error => {
@@ -15,3 +15,6 @@ export default class DatabaseService {
 }
 
 
+export default (config: typeof configService) => {
+    return new DatabaseServiceModule(config)
+  }

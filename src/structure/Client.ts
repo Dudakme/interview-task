@@ -30,6 +30,7 @@ export class CustomizedCommandClient extends CommandClient {
   async setup() {
     await this.enableApplicationCommandsExtension({ guilds: configService().guilds })
     await this.registry.registerModule(new DevModule())
+    await this.enableTextCommandsExtension({ prefix: "" })
 
     await this.registry.loadAllModulesInDirectory(
       path.join(__dirname, "..", "modules")

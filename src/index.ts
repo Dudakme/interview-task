@@ -11,12 +11,37 @@ import UserRepo from "./structure/repository/user.repository"
 
 import { Client } from "discord.js"
 import { CustomizedCommandClient } from "./structure/Client"
+import LikabilityRepo from "./structure/repository/likability.repository"
+
+let responses: IReaction[] = [
+  {
+    message: "안녕",
+    reply: "안녕하세요!",
+    likability: 1,
+  },
+  {
+    message: "안녕",
+    reply: "안녕하세요 {username}님!",
+    likability: 1,
+  },
+  {
+    message: "좋아해",
+    reply: "저도 {username}님이 좋아요!",
+    likability: 3,
+  },
+  {
+    message: "저리가",
+    reply: "...그런 말 하시면 슬퍼요...",
+    likability: -2,
+  },
+]
+
+export const UserRepository = new UserRepo(UserModel, BadgeModel)
+export const ReactionRepository = new ReactionRepo(responses)
+export const LikabilityRepository = new LikabilityRepo(UserModel)
 
 
-
-// 어디서 클래스를 인스턴스(서비스, 리포) 하는게 맞는 방법일까? 찾아 볼 필요가 있다.
-const Users = new UserRepo(UserModel, BadgeModel)
-const DB = new DatabaseService(configService)
+export const Database = DatabaseService(configService)
 
 const client = new Client({
   intents: ["Guilds", "DirectMessages", "GuildMessages", "MessageContent"],
@@ -30,15 +55,7 @@ const start = async () => {
   await client.login(configService().token)
   await cts.getApplicationCommandsExtension()!.sync()
 
-  await DB.connect(cts.ctsLogger)
-  await Users.createUser({
-    id: "12345",
-    username: "test",
-    badges: [],
-    verifiedAt: new Date(),
-    likability: 0,
-    battery: 0,
-  })
+  await Database.init(cts.ctsLogger)
 }
 
 start().then()

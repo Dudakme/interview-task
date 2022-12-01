@@ -11,7 +11,7 @@ export default class UserRepo {
     }
 
     public async getUserBadges(id: string) {
-        await this.user.findOne({ id: id }, (doc: any) => {
+        await this.user.find({ id: id }, (doc: any) => {
             console.log(doc)
         });
 
@@ -39,4 +39,3 @@ export default class UserRepo {
         return
     }
  }
-

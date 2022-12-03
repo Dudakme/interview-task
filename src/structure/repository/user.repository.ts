@@ -1,41 +1,59 @@
-import { BadgeModel, UserModel } from '../entities'
-import { IUser } from '../models';
-
+import { BadgeModel, UserModel } from "../entities"
+import { IBadge, InputUser } from "../models"
 
 export default class UserRepo {
-    constructor(private user: typeof UserModel, private badges: typeof BadgeModel) {}
+  constructor(
+    private user: typeof UserModel,
+    private badges: typeof BadgeModel
+  ) {}
 
-    // 임시적으로 any 사용. 테스트 용, 의존성 주입을 위하여 따로 인수 제작
-    public async getUserbyId(id: string): Promise<any> {
-        return await this.user.findOne({ id: id });
-    }
+  // 임시적으로 any 사용. 테스트 용, 의존성 주입을 위하여 따로 인수 제작
+  public async getUserbyId(id: string): Promise<any> {
+    return await this.user.findOne({ id: id })
+  }
 
-    public async getUserBadges(id: string) {
-        await this.user.find({ id: id }, (doc: any) => {
-            console.log(doc)
-        });
+  public async getUserBadges(id: string): Promise<IBadge[]> {
+    const badges: IBadge[] = await this.badges.find({ id: id })
 
-    }
+    return badges
+  }
 
-    // 임시적으로 any 사용. 테스트 용
-    public async updateDateVerifiedbyId(id: string, verifiedAt: Date): Promise<any> {
-        return await this.user.findOneAndUpdate({ id: id }, { verifiedAt: verifiedAt })
-    }
+  public async createBadge(options: IBadge): Promise<boolean> {
+    const badge = new this.badges(options)
 
-    public async createUser(options: IUser) {
-        const res = new this.user(options);
+      badge.save((err) => {
+        if (err) return false
+      })
+      return true
+  }
 
-        res.save((err) => {
-            if (err) return err;
+  // 임시적으로 any 사용. 테스트 용
+  public async updateDateVerifiedbyId(
+    id: string,
+    verifiedAt: Date
+  ): Promise<any> {
+    return await this.user.findOneAndUpdate(
+      { id: id },
+      { verifiedAt: verifiedAt }
+    )
+  }
 
-            const badge = new this.badges({
-                badgeId: "0",
-                owner: res.id
-            })
+  public async createUser(options: InputUser) {
+    const res = new this.user(options)
 
-            badge.save();
-        });
+    res.save((err) => {
+      if (err) return err
 
-        return
-    }
- }
+      const badge = new this.badges({
+        badgeId: "0",
+        owner: res.id,
+      })
+
+      badge.save((err) => {
+        if (err) return err
+      })
+    })
+
+    return
+  }
+}

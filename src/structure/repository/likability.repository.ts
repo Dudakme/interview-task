@@ -13,7 +13,8 @@ export default class LikabilityRepo {
 
     // 임시적으로 any 사용. 테스트 용
     public async updateLikabilitybyId(id: string, likability: number): Promise<any> {
-        return await this.Model.findOneAndUpdate({ id: id }, { likability: likability })
+        const result = await this.Model.findOneAndUpdate({ id: id }, { likability: likability })
+        return result
     }
  }
 

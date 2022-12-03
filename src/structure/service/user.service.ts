@@ -1,6 +1,6 @@
 import UserRepo from "../repository/user.repository";
 import LikabilityRepo from "../repository/likability.repository";
-import { IUser } from "../models";
+import { InputUser } from "../models";
 
 export class userServiceModule {
     constructor(private userRepo: UserRepo, private likeRepo: LikabilityRepo) {}
@@ -18,7 +18,7 @@ export class userServiceModule {
         
     }
 
-    public async createUser(options: IUser) {
+    public async createUser(options: InputUser) {
         const result = await this.userRepo.createUser(options)
         return result
     }

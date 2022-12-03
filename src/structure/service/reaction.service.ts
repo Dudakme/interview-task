@@ -35,10 +35,9 @@ class ReactionServiceModule {
     })
 
     const result = JSON.parse(response)
+    const pastLikability = await this.likabilities.getLikabilitybyId(options.userId)
 
-    const likability = await this.likabilities.getLikabilitybyId(options.userId)
-
-    console.log(await this.likabilities.updateLikabilitybyId(options.userId, likability + result.likability))
+    this.likabilities.updateLikabilitybyId(options.userId, pastLikability + result.likability)
 
     return result
   }

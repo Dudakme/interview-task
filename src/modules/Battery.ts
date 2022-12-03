@@ -22,7 +22,7 @@ class PingPongExtension extends Extension {
   public users = userService(UserRepository, LikabilityRepository)
 
   @applicationCommand({
-    name: "battery",
+    name: "배터리",
     type: ApplicationCommandType.ChatInput,
     description: "크시를 활용하기 위한 배터리가 얼마나 있는질 알 수 있어요!",
   })

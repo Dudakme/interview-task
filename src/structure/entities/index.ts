@@ -1,13 +1,9 @@
 import mongoose, { Model, Schema } from "mongoose"
-import { IUser, IBadge } from "../models"
+import { InputUser, IBadge } from "../models"
 
-// 배지도 엔티티로
+type BadgeModel = Model<IBadge, {}, {}>
 
-interface IUserMethod {
-  getLikeLevel(): number
-}
-
-const badgeSchema = new Schema<IBadge>({
+const badgeSchema = new Schema<IBadge, BadgeModel>({
   badgeId: Number,
   owner: {
     type: String,
@@ -15,7 +11,13 @@ const badgeSchema = new Schema<IBadge>({
   },
 })
 
-const userSchema: Schema = new Schema<IUser>(
+interface IUserMethods {
+  getLikeLevel(): number
+}
+
+type UserModel = Model<InputUser, {}, IUserMethods>;
+
+const userSchema = new Schema<InputUser, UserModel, IUserMethods>(
   {
     id: String,
     username: String,
@@ -39,30 +41,27 @@ const userSchema: Schema = new Schema<IUser>(
       },
     ],
     verifiedAt: Date,
-  },
-  {
-    methods: {
-      // 수정해여함
-      getLikeLevel(id: string) {
-        return new Promise(async (resolve, reject) => {
-          const found = await this.findOne({ id: id })
-
-          if (found?.likability == undefined) return reject("error") 
-
-          let level = 0
-          for (let reach = 30, i = 1; reach + 2; i++) {
-
-            if (found.likability - reach > 0) {
-              level = i
-            } else break
-          }
-          resolve(level)
-        })
-      },
-    },
   }
 )
 
-type IUserModel = Model<IUser, {}, IUserMethod>
-export const UserModel = mongoose.model<IUser, IUserModel, IUserMethod>("User", userSchema)
+userSchema.method("getLikeLevel", function getLikeLevel(): number {
+
+  if (!this) return 0;
+
+  const { likability } = this
+  if (likability > 60) {
+    return 2
+  } else if (likability > 100) {
+    return 3
+  } else if (likability > 300) {
+    return 4
+  } else if ( likability > 800) {
+    return 5
+  } 
+  
+  return 1
+})
+
+
+export const UserModel = mongoose.model<InputUser, UserModel>("User", userSchema)
 export const BadgeModel = mongoose.model("Badges", badgeSchema)

@@ -41,7 +41,6 @@ class PingPongExtension extends Extension {
 
           return await i.reply('새로 가입 되었어요!')
     }
-    this.logger.info(`배터리 커멘드가 이용되었습니다. 사용자: ${i.user.id}'`)
     await i.reply({ embeds: [batteryEmbed(i.user, userData.battery)]})
   }
 }

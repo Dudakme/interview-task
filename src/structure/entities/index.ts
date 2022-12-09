@@ -34,10 +34,7 @@ const userSchema = new Schema<InputUser, UserModel, IUserMethods>(
     badges: [
       {
         badgeId: Number,
-        owner: {
-          type: mongoose.Types.ObjectId,
-          ref: "User",
-        },
+        owner: String
       },
     ],
     verifiedAt: Date,
